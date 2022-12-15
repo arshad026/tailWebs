@@ -11,9 +11,9 @@ router.post('/login', teacherLogin)
 
 
 router.post('/students', authentication, createStudents)
-router.get('/students/:teacherId', authentication, authorisation, getStudent)
-router.put('/students/:teacherId/:studentId', authentication, authorisation, updateStudent)
-router.delete('/students/:teacherId/:studentId', authentication, authorisation, deleteStudent)
+router.get('/students', authentication, authorisation, getStudent)
+router.put('/students/:studentId', authentication, authorisation, updateStudent)
+router.delete('/students/:studentId', authentication, authorisation, deleteStudent)
 
 
 module.exports = router

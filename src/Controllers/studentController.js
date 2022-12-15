@@ -54,7 +54,7 @@ const getStudent = async function (req, res) {
 
     try {
         let data = req.query
-        let teacherId = req.params.teacherId
+        let teacherId = req.decodedToken.teacherId
         let { name, subject } = data
         let queryFilter = { teacherId: teacherId, isDeleted: false }
 
@@ -79,7 +79,7 @@ const updateStudent = async function (req, res) {
 
     try {
         const data = req.body
-        let teacherId = req.params.teacherId
+        let teacherId = req.decodedToken.teacherId
         let studentId = req.params.studentId
 
         const { name, subject, marks } = data
@@ -96,7 +96,7 @@ const updateStudent = async function (req, res) {
         if (!mongoose.isValidObjectId(studentId)) return res.status(400).send({ status: false, message: "please provide valid studentId" })
         if (Object.keys(data).length == 0) return res.status(400).send({ status: false, message: "for updation data is required" })
 
-        let student = await studentModel.findOne({ _id: studentId, teacherId: teacherId })
+        let student = await studentModel.findOne({ _id: studentId, teacherId: teacherId, isDeleted : false })
         if (!student) return res.status(404).send({ status: false, message: "student does not found" })
 
         if (!nameRegex.test(name)) return res.status(400).send({ status: false, message: "Please Provide Valid name" })
@@ -117,11 +117,7 @@ const updateStudent = async function (req, res) {
 const deleteStudent = async function (req, res) {
 
     try {
-        let studentId = req.params.studentId
-
-        if (!mongoose.isValidObjectId(studentId)) {
-            return res.status(400).send({ status: false, message: "please provide valid studentId" })
-        }
+        let studentId = req.decodedToken.teacherId
 
         const student = await studentModel.findOne({ _id: studentId, isDeleted: false })
         if (!student) {

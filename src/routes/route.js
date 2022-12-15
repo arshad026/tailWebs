@@ -5,10 +5,6 @@ const { createStudents, getStudent, updateStudent, deleteStudent } = require('..
 const { authentication, authorisation } = require('../MiddleWares/auth')
 
 
-router.get('/test-me', function (req, res) {
-    res.send('My Fisrt API')
-})
-
 
 router.post('/register', createTeachers)
 router.post('/login', teacherLogin)
